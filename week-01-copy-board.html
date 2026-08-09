@@ -1,0 +1,884 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>又见世界｜第一周文案复制板</title>
+    <style>
+      :root {
+        --bg: #f6f8f7;
+        --panel: #ffffff;
+        --text: #1f2c29;
+        --muted: #65736f;
+        --line: #d8e5e0;
+        --accent: #0f5c55;
+        --accent-dark: #0a403b;
+        --accent-soft: #eaf5f2;
+        --warn-soft: #fff8e8;
+        --shadow: 0 16px 40px rgba(17, 42, 38, 0.08);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        color: var(--text);
+        background: var(--bg);
+        font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+        line-height: 1.6;
+      }
+
+      button,
+      textarea {
+        font: inherit;
+      }
+
+      .app {
+        min-height: 100vh;
+        display: grid;
+        grid-template-columns: 260px minmax(0, 1fr);
+      }
+
+      .sidebar {
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        padding: 24px 18px;
+        border-right: 1px solid var(--line);
+        background: #ffffff;
+        overflow: auto;
+      }
+
+      .brand {
+        margin-bottom: 22px;
+      }
+
+      .brand h1 {
+        margin: 0 0 6px;
+        color: var(--accent-dark);
+        font-size: 20px;
+        line-height: 1.25;
+      }
+
+      .brand-home {
+        display: inline-block;
+        color: inherit;
+        text-decoration: none;
+        border-radius: 4px;
+      }
+
+      .brand-home:hover h1 {
+        color: var(--accent);
+      }
+
+      .brand-home:focus-visible {
+        outline: 3px solid #acd2c9;
+        outline-offset: 4px;
+      }
+
+      .brand p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .nav {
+        display: grid;
+        gap: 8px;
+      }
+
+      .nav button {
+        width: 100%;
+        padding: 12px 12px;
+        border: 1px solid transparent;
+        border-radius: 8px;
+        color: var(--text);
+        background: transparent;
+        text-align: left;
+        cursor: pointer;
+      }
+
+      .nav button:hover {
+        background: var(--accent-soft);
+      }
+
+      .nav button.active {
+        border-color: #acd2c9;
+        background: var(--accent-soft);
+        color: var(--accent-dark);
+      }
+
+      .nav .day {
+        display: block;
+        font-size: 14px;
+        font-weight: 700;
+      }
+
+      .nav .topic {
+        display: block;
+        margin-top: 2px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .content {
+        padding: 32px;
+      }
+
+      .topbar {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 20px;
+      }
+
+      .title h2 {
+        margin: 0 0 6px;
+        color: var(--accent-dark);
+        font-size: 28px;
+        line-height: 1.25;
+      }
+
+      .title p {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .tools {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
+      .copy-all,
+      .ghost {
+        min-height: 40px;
+        padding: 0 14px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #ffffff;
+        color: var(--accent-dark);
+        cursor: pointer;
+        white-space: nowrap;
+      }
+
+      .copy-all {
+        border-color: var(--accent);
+        background: var(--accent);
+        color: #ffffff;
+      }
+
+      .copy-all:hover {
+        background: var(--accent-dark);
+      }
+
+      .ghost:hover {
+        background: var(--accent-soft);
+      }
+
+      .notice {
+        margin-bottom: 22px;
+        padding: 14px 16px;
+        border: 1px solid #e8d9a9;
+        border-radius: 8px;
+        background: var(--warn-soft);
+        color: #5f4b16;
+        font-size: 14px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .card {
+        min-width: 0;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+
+      .card header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 14px 16px;
+        border-bottom: 1px solid var(--line);
+        background: #fbfdfc;
+      }
+
+      .card h3 {
+        margin: 0;
+        color: var(--accent-dark);
+        font-size: 18px;
+      }
+
+      .copy-btn {
+        min-width: 86px;
+        min-height: 36px;
+        padding: 0 12px;
+        border: 1px solid var(--accent);
+        border-radius: 8px;
+        background: var(--accent);
+        color: #ffffff;
+        cursor: pointer;
+      }
+
+      .copy-btn:hover {
+        background: var(--accent-dark);
+      }
+
+      .copy-btn.copied {
+        border-color: #2f8f68;
+        background: #2f8f68;
+      }
+
+      textarea {
+        display: block;
+        width: 100%;
+        min-height: 640px;
+        padding: 16px;
+        border: 0;
+        color: var(--text);
+        background: #ffffff;
+        resize: vertical;
+        outline: none;
+        white-space: pre-wrap;
+        font-size: 16px;
+        line-height: 1.75;
+      }
+
+      .image-note {
+        margin-top: 18px;
+        padding: 16px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #ffffff;
+      }
+
+      .image-note h3 {
+        margin: 0 0 6px;
+        color: var(--accent-dark);
+        font-size: 16px;
+      }
+
+      .image-note p {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .toast {
+        position: fixed;
+        right: 22px;
+        bottom: 22px;
+        padding: 12px 14px;
+        border-radius: 8px;
+        background: #173f3a;
+        color: #ffffff;
+        box-shadow: var(--shadow);
+        opacity: 0;
+        transform: translateY(10px);
+        transition: opacity 0.18s ease, transform 0.18s ease;
+        pointer-events: none;
+      }
+
+      .toast.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      @media (max-width: 920px) {
+        .app {
+          display: block;
+        }
+
+        .sidebar {
+          position: static;
+          height: auto;
+          border-right: 0;
+          border-bottom: 1px solid var(--line);
+        }
+
+        .nav {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .content {
+          padding: 22px 16px;
+        }
+
+        .topbar {
+          display: block;
+        }
+
+        .tools {
+          margin-top: 14px;
+          justify-content: flex-start;
+        }
+
+        .grid {
+          grid-template-columns: 1fr;
+        }
+
+        textarea {
+          min-height: 520px;
+        }
+      }
+
+      @media (max-width: 560px) {
+        .nav {
+          grid-template-columns: 1fr;
+        }
+
+        .title h2 {
+          font-size: 23px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <aside class="sidebar">
+        <div class="brand">
+          <a class="brand-home" href="/" aria-label="返回又见世界文案复制板首页"><h1>又见世界文案复制板</h1></a>
+          <p>第一周｜微信群 + 朋友圈</p>
+        </div>
+        <nav class="nav" id="dayNav" aria-label="选择日期"></nav>
+      </aside>
+
+      <main class="content">
+        <div class="topbar">
+          <div class="title">
+            <h2 id="pageTitle"></h2>
+            <p id="pageSubtitle"></p>
+          </div>
+          <div class="tools">
+            <button class="copy-all" id="copyBoth">复制当天两版</button>
+          </div>
+        </div>
+
+        <div class="notice">
+          复制建议：点击对应卡片右上角按钮即可复制。每段已经保留空行，粘贴到微信聊天框后会比从 PDF 复制清楚。
+        </div>
+
+        <section class="grid" id="cards"></section>
+
+        <section class="image-note">
+          <h3>配图建议</h3>
+          <p id="imageNote"></p>
+        </section>
+      </main>
+    </div>
+
+    <div class="toast" id="toast">已复制</div>
+
+    <script>
+      const week = [
+        {
+          day: "周一",
+          column: "邮轮玩法",
+          topic: "日本邮轮",
+          image: "邮轮甲板、日本港口城市、船舱阳台、海上日落。",
+          group: `【今日主题】
+日本邮轮，适合第一次体验邮轮的朋友。
+
+【适合谁】
+1. 第一次坐邮轮，想先从近一点的航线开始。
+2. 不想长途飞行，也不想每天换酒店。
+3. 喜欢轻松出行、吃住安排比较省心的 60/70 后朋友。
+
+【这条玩法是什么】
+日本邮轮通常从国内港口或周边港口出发，航程相对不长，途中停靠日本港口城市。
+
+白天上岸看看城市，晚上回船上休息。
+
+【主要亮点】
+1. 不用天天换酒店。
+2. 航程相对短，适合先体验邮轮。
+3. 船上餐饮、活动、休息空间比较完整。
+4. 对第一次出境或第一次坐邮轮的人，心理压力小一点。
+
+【特色体验】
+早上醒来，不是在陌生酒店收拾行李，而是在船上慢慢吃早餐。
+
+靠港后下船逛一逛日本城市，看看街道、商店和当地生活，下午或傍晚再回到船上。
+
+晚上可以在甲板吹风，看海面和灯光，节奏比赶路型行程轻松很多。
+
+【建议怎么玩】
+第一次体验可以选择 4-6 晚左右的短航线。
+
+重点看登船港是否方便、岸上观光是否轻松、是否有清楚的中文服务安排。
+
+【预算参考】
+邮轮产品：约 5000-15000 元/人起。
+
+阳台房、节假日或更舒适安排：通常 15000 元/人起。
+
+具体价格看出发日期、船公司、房型、港口税费和岸上观光安排。
+
+【需要注意】
+邮轮也不是完全不用操心。
+
+要提前看清楚小费、岸上观光、签证或入境要求、保险和取消规则。
+
+【一句话总结】
+日本邮轮适合先体验邮轮生活，但不要只看价格，要看房型、费用包含和岸上安排。`,
+          moments: `【今日主题】
+第一次坐邮轮，可以先了解日本邮轮。
+
+【适合谁】
+如果您想试试邮轮，但又不想一上来就飞很远、走很长航线，日本邮轮是一个比较容易上手的选择。
+
+【这条玩法是什么】
+日本邮轮的特点是航程相对短，通常会停靠日本港口城市。
+
+船上解决住宿和餐饮，白天下船游览，晚上回船休息。
+
+【特色体验】
+这种旅行最舒服的地方，是不用每天收拾箱子。
+
+早上在船上吃早餐，靠港后下船走走，看看日本街道、小店、港口城市的生活气息。
+
+傍晚回到船上，坐在甲板或休息区，看海面慢慢暗下来。
+
+它不是特别刺激的玩法，但很适合想轻松体验邮轮的朋友。
+
+【建议怎么玩】
+第一次可以选 4-6 晚短航线，不要一开始就选太复杂的长航线。
+
+重点看登船是否方便、岸上观光累不累、费用是否写清楚。
+
+【预算参考】
+邮轮产品：约 5000-15000 元/人起。
+
+阳台房、节假日或更舒适安排：通常 15000 元/人起。
+
+具体价格看出发日期、船公司、房型、港口税费和岸上观光安排。
+
+【需要注意】
+邮轮不是只看“船大不大、房间好不好”，更要看隐藏费用、岸上安排和取消规则。
+
+【一句话总结】
+第一次坐邮轮，先选一条轻松、清楚、好上手的航线，比盲目追求豪华更重要。`
+        },
+        {
+          day: "周二",
+          column: "目的地推荐",
+          topic: "新加坡",
+          image: "滨海湾花园、鱼尾狮、金沙酒店夜景、星耀樟宜瀑布。",
+          group: `【今日目的地】
+新加坡，第一次出境的稳妥选择。
+
+【适合谁】
+1. 第一次出境，想选一个压力小的地方。
+2. 喜欢城市干净、安全、交通方便。
+3. 不想每天长途坐车，也不想行程太赶。
+
+【为什么值得去】
+新加坡不大，城市成熟，中文环境相对友好，交通和服务都比较清楚。
+
+对 60/70 后来说，第一次出境不一定要去很远，先选一个容易适应的地方，体验会更稳。
+
+【主要看什么】
+滨海湾花园、鱼尾狮公园、圣淘沙、牛车水、小印度、星耀樟宜。
+
+【特色体验】
+傍晚去滨海湾一带最舒服。
+
+太阳没那么晒，沿着水边慢慢走，可以看到鱼尾狮、金沙酒店和城市天际线。
+
+晚上去滨海湾花园看灯光亮起来，不用爬山、不用长途坐车，就能感受到一个现代城市的漂亮和秩序感。
+
+【建议玩几天】
+4-5 天比较舒服。
+
+不要排太满，留一点时间休息和自由活动。
+
+【预算参考】
+跟团游：约 6000-13000 元/人起。
+
+定制游：通常 18000 元/人起。
+
+具体价格看出发日期、航班、酒店、人数和行程安排。
+
+【不适合谁】
+如果您想看大山大水、自然奇观，或者只追求最低价，新加坡可能不是最优选择。
+
+【一句话总结】
+新加坡适合第一次出境，优势不是便宜，而是安心、方便、好适应。`,
+          moments: `【今日目的地】
+新加坡。
+
+【适合谁】
+如果您第一次出境，还不知道从哪里开始，新加坡是一个比较稳妥的选择。
+
+【为什么值得去】
+它的优势不是“多远、多奇特”，而是城市成熟、交通方便、环境干净、节奏容易控制。
+
+第一次出境，最重要的是别把自己弄得太累。
+
+【特色体验】
+您可以傍晚去滨海湾慢慢走。
+
+水边有风，远处是金沙酒店，旁边是鱼尾狮和城市灯光。
+
+到了晚上，滨海湾花园的灯光一点点亮起来，不需要很强体力，也能看到一个城市最漂亮的一面。
+
+【建议玩几天】
+4-5 天比较合适，适合慢慢适应出境游节奏。
+
+【预算参考】
+跟团游：约 6000-13000 元/人起。
+
+定制游：通常 18000 元/人起。
+
+具体价格看出发日期、航班、酒店、人数和行程安排。
+
+【不适合谁】
+如果您特别想看自然风光，或者只想找最便宜的团，新加坡就不是最合适的方向。
+
+【一句话总结】
+第一次出境，可以先选一个安全、干净、节奏好控制的地方。`
+        },
+        {
+          day: "周三",
+          column: "安心出行小贴士",
+          topic: "长途飞行怎么舒服一点",
+          image: "飞机舷窗、随身包、舒适飞行用品、机场休息区。",
+          group: `【今日提醒】
+60/70 后坐长途飞机，不要硬扛。
+
+【为什么重要】
+长途飞行最累的不是坐飞机本身，而是久坐、缺水、睡不好、落地后还要继续赶行程。
+
+第一天太累，后面几天都会受影响。
+
+【具体怎么做】
+1. 尽量选择白天或傍晚到达的航班。
+2. 飞行中少量多次喝水，不要一直忍着不动。
+3. 每隔一段时间活动脚踝和小腿。
+4. 穿宽松衣服和舒服的鞋。
+5. 随身包里放好常用药、眼镜、外套和简单洗漱用品。
+
+【容易忽略的细节】
+不要把第一天行程排太满。
+
+到达当天最好只安排入住、吃饭、轻松散步，不要马上赶景点。
+
+【适合提前准备】
+颈枕、薄外套、保温杯、常用药、眼药水。
+
+压缩袜是否适合自己，可以提前咨询医生。
+
+【一句话总结】
+长途飞行不是靠忍，提前选好航班和节奏，落地后才有精神玩。`,
+          moments: `【今日提醒】
+长途飞行，60/70 后不要硬扛。
+
+【为什么重要】
+很多出境游真正累人的地方，是从航班开始的。
+
+夜里飞、凌晨到、落地马上赶景点，年轻人都累，更不要说退休朋友。
+
+【具体怎么做】
+如果条件允许，优先选到达时间舒服的航班。
+
+飞行中要少量多次喝水，隔一段时间活动腿脚。
+
+衣服和鞋子不要太紧，随身包里要放常用药、外套和必要证件。
+
+【容易忽略的细节】
+到达当天不要安排太满。
+
+最好的节奏是先入住、吃点热的、简单走走，让身体适应时差和天气。
+
+【适合提前准备】
+颈枕、薄外套、常用药、眼药水、保温杯。
+
+身体有特殊情况的朋友，长途飞行前可以提前咨询医生。
+
+【一句话总结】
+旅行舒服不舒服，有时候从航班选择就已经开始了。`
+        },
+        {
+          day: "周四",
+          column: "目的地推荐",
+          topic: "岘港 + 会安",
+          image: "岘港海滩、会安灯笼古城、河边夜景、海边酒店早餐。",
+          group: `【今日目的地】
+岘港 + 会安，有海、有古城、有慢节奏。
+
+【适合谁】
+1. 想去东南亚，但不想每天赶景点。
+2. 喜欢海边、古城、灯笼夜景。
+3. 希望行程轻松一点，住得舒服一点。
+
+【为什么值得去】
+岘港有海滩和度假酒店，会安有古城和河边夜景。
+
+一个适合休息，一个适合慢慢逛，组合起来很适合做轻松度假。
+
+【主要看什么】
+岘港海滩、会安古城、灯笼街、河边夜景、当地小店。
+
+【特色体验】
+白天可以在岘港海边慢慢吃早餐，去海边走一走，或者在酒店休息。
+
+傍晚去会安古城，看一盏盏灯笼亮起来，河面上有小船经过，街边有咖啡馆和小店。
+
+这个地方不适合赶，适合把脚步放慢。
+
+【建议玩几天】
+5-6 天比较舒服。
+
+不要每天排满，最好留出半天在酒店或海边休息。
+
+【预算参考】
+跟团游：约 5000-10000 元/人起。
+
+定制游：通常 15000 元/人起。
+
+具体价格看出发日期、航班、酒店、人数和行程安排。
+
+【不适合谁】
+特别怕热、不适应东南亚饮食，或者只想看大型景点的人，要提前考虑。
+
+【一句话总结】
+岘港 + 会安适合慢度假，重点不是景点数量，而是酒店、节奏和每天是否舒服。`,
+          moments: `【今日目的地】
+岘港 + 会安。
+
+【适合谁】
+如果您想去一个不太远、有海、有古城、节奏慢一点的地方，可以看看岘港 + 会安。
+
+【为什么值得去】
+岘港负责度假感，会安负责异国风情。
+
+一个看海，一个看古城，安排得好，会比每天赶景点舒服很多。
+
+【特色体验】
+早上在海边酒店吃早餐，慢慢看海。
+
+下午休息一下，傍晚去会安古城。
+
+天色暗下来以后，灯笼一盏盏亮起，河边有船、有小店、有咖啡馆。
+
+坐下来喝点东西，看人来人往，会有一种“真的出来旅行了”的感觉。
+
+【建议玩几天】
+5-6 天比较合适，适合轻松度假，不建议排得太满。
+
+【预算参考】
+跟团游：约 5000-10000 元/人起。
+
+定制游：通常 15000 元/人起。
+
+具体价格看出发日期、航班、酒店、人数和行程安排。
+
+【不适合谁】
+如果特别怕热，或者对餐食、酒店要求比较高，要提前把季节、酒店位置和餐食安排看清楚。
+
+【一句话总结】
+有些旅行不是为了打卡更多景点，而是为了换一个地方，好好放松几天。`
+        },
+        {
+          day: "周五",
+          column: "全球景点与体验",
+          topic: "普罗旺斯薰衣草花海",
+          image: "普罗旺斯薰衣草花田、南法石头小镇、乡间公路、夕阳花海。",
+          group: `【今日体验】
+法国普罗旺斯薰衣草花海。
+
+【为什么特别】
+普罗旺斯的薰衣草不是一个单独景点，而是一整片南法乡村的季节风景。
+
+到了花季，紫色花田、石头小镇、阳光和风一起出现，很有画面感。
+
+【适合谁】
+1. 喜欢花海、乡村、小镇慢游。
+2. 喜欢拍照，但不想太赶。
+3. 想看法国不只是巴黎的一面。
+
+【最佳时间】
+通常夏季花期更有代表性。
+
+但每年具体盛开时间会受天气影响，出发前要确认花况。
+
+【怎么到达或怎么安排】
+更适合放进法国南部深度游，或者定制小团里。
+
+可以搭配阿维尼翁、尼斯、戛纳、南法小镇一起安排。
+
+【需要注意】
+花期很重要，早了可能没开，晚了可能收割。
+
+花田之间距离不近，不建议完全靠自己临时找路。
+
+天气晒，拍照和步行要注意防晒和休息。
+
+【适合搭配哪条线路】
+法国南部定制游、南法小镇慢游、法国深度游、地中海邮轮岸上延伸。
+
+【一句话总结】
+普罗旺斯花海适合慢慢看，不适合赶路打卡。
+
+时间选对，体验才漂亮。`,
+          moments: `【今日体验】
+普罗旺斯薰衣草花海。
+
+【为什么特别】
+很多人想到法国，第一反应是巴黎。
+
+但如果您喜欢慢一点、柔和一点的风景，南法普罗旺斯很值得了解。
+
+【特色体验】
+花季的时候，车子开过南法乡间公路，窗外是一片一片紫色花田。
+
+远处是石头小镇和教堂，阳光很亮，空气里有淡淡的草木香。
+
+您不用赶着看很多景点，只要在合适的时间，慢慢走进那片花田，就会觉得这一趟很特别。
+
+【适合谁】
+适合喜欢花、喜欢拍照、喜欢法国小镇和慢旅行的朋友。
+
+不一定要体力特别强，但要能接受一定步行和夏季阳光。
+
+【最佳时间】
+通常夏季花期更有代表性。
+
+但每年花况会变，出发前要确认具体时间。
+
+【怎么到达或怎么安排】
+建议放进法国南部深度游或定制小团里，不建议为了一个花田当天来回硬赶。
+
+可以搭配阿维尼翁、尼斯、戛纳、南法小镇。
+
+【预算参考】
+跟团游：法国南部或法国深度线路通常约 18000-35000 元/人起。
+
+定制游：通常 35000 元/人起。
+
+具体价格看出发日期、航班、酒店、人数和行程安排。
+
+【需要注意】
+普罗旺斯最怕时间不对。
+
+花期、天气、交通安排，都比“景点名气”更重要。
+
+【一句话总结】
+有些地方不是随便什么时候去都好看。
+
+普罗旺斯就是要选对季节、放慢脚步。`
+        }
+      ];
+
+      const nav = document.querySelector("#dayNav");
+      const pageTitle = document.querySelector("#pageTitle");
+      const pageSubtitle = document.querySelector("#pageSubtitle");
+      const cards = document.querySelector("#cards");
+      const imageNote = document.querySelector("#imageNote");
+      const copyBoth = document.querySelector("#copyBoth");
+      const toast = document.querySelector("#toast");
+
+      let activeIndex = 0;
+
+      function showToast(message) {
+        toast.textContent = message;
+        toast.classList.add("show");
+        window.clearTimeout(showToast.timer);
+        showToast.timer = window.setTimeout(() => toast.classList.remove("show"), 1600);
+      }
+
+      async function copyText(text, label, button) {
+        try {
+          await navigator.clipboard.writeText(text);
+        } catch (error) {
+          const helper = document.createElement("textarea");
+          helper.value = text;
+          helper.style.position = "fixed";
+          helper.style.left = "-9999px";
+          document.body.appendChild(helper);
+          helper.select();
+          document.execCommand("copy");
+          helper.remove();
+        }
+
+        if (button) {
+          const oldText = button.textContent;
+          button.textContent = "已复制";
+          button.classList.add("copied");
+          window.setTimeout(() => {
+            button.textContent = oldText;
+            button.classList.remove("copied");
+          }, 1400);
+        }
+        showToast(`已复制${label}`);
+      }
+
+      function renderNav() {
+        nav.innerHTML = "";
+        week.forEach((item, index) => {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = index === activeIndex ? "active" : "";
+          button.innerHTML = `<span class="day">${item.day}｜${item.column}</span><span class="topic">${item.topic}</span>`;
+          button.addEventListener("click", () => {
+            activeIndex = index;
+            render();
+          });
+          nav.appendChild(button);
+        });
+      }
+
+      function createCard(title, text) {
+        const card = document.createElement("article");
+        card.className = "card";
+
+        const header = document.createElement("header");
+        const heading = document.createElement("h3");
+        heading.textContent = title;
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "copy-btn";
+        button.textContent = "复制";
+        button.addEventListener("click", () => copyText(text, title, button));
+        header.append(heading, button);
+
+        const area = document.createElement("textarea");
+        area.value = text;
+        area.spellcheck = false;
+        area.addEventListener("focus", () => area.select());
+
+        card.append(header, area);
+        return card;
+      }
+
+      function render() {
+        const item = week[activeIndex];
+        renderNav();
+        pageTitle.textContent = `${item.day}｜${item.column}`;
+        pageSubtitle.textContent = `今日选题：${item.topic}`;
+        imageNote.textContent = item.image;
+        cards.innerHTML = "";
+        cards.append(createCard("群发版", item.group), createCard("朋友圈版", item.moments));
+      }
+
+      copyBoth.addEventListener("click", () => {
+        const item = week[activeIndex];
+        const text = `【群发版】\n\n${item.group}\n\n------------------------------\n\n【朋友圈版】\n\n${item.moments}`;
+        copyText(text, "当天两版", copyBoth);
+      });
+
+      render();
+    </script>
+  </body>
+</html>

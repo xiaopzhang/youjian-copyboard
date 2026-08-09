@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>又见世界｜第二周文案复制板</title>
+    <style>
+      :root{--bg:#f6f8f7;--panel:#fff;--text:#1f2c29;--muted:#65736f;--line:#d8e5e0;--accent:#0f5c55;--accent-dark:#0a403b;--accent-soft:#eaf5f2;--warn-soft:#fff8e8;--shadow:0 16px 40px rgba(17,42,38,.08)}
+      *{box-sizing:border-box} body{margin:0;color:var(--text);background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.6} button,textarea{font:inherit}
+      .app{min-height:100vh;display:grid;grid-template-columns:260px minmax(0,1fr)} .sidebar{position:sticky;top:0;height:100vh;padding:24px 18px;border-right:1px solid var(--line);background:#fff;overflow:auto}
+      .brand{margin-bottom:22px}.brand h1{margin:0 0 6px;color:var(--accent-dark);font-size:20px;line-height:1.25}.brand p{margin:0;color:var(--muted);font-size:13px}
+      .brand-home{display:inline-block;color:inherit;text-decoration:none;border-radius:4px}.brand-home:hover h1{color:var(--accent)}.brand-home:focus-visible{outline:3px solid #acd2c9;outline-offset:4px}
+      .nav{display:grid;gap:8px}.nav button{width:100%;padding:12px;border:1px solid transparent;border-radius:8px;color:var(--text);background:transparent;text-align:left;cursor:pointer}.nav button:hover,.nav button.active{background:var(--accent-soft)}.nav button.active{border-color:#acd2c9;color:var(--accent-dark)}.nav .day{display:block;font-size:14px;font-weight:700}.nav .topic{display:block;margin-top:2px;color:var(--muted);font-size:12px}
+      .content{padding:32px}.topbar{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:20px}.title h2{margin:0 0 6px;color:var(--accent-dark);font-size:28px;line-height:1.25}.title p{margin:0;color:var(--muted)}
+      .copy-all{min-height:40px;padding:0 14px;border:1px solid var(--accent);border-radius:8px;background:var(--accent);color:#fff;cursor:pointer;white-space:nowrap}.copy-all:hover{background:var(--accent-dark)}
+      .notice{margin-bottom:22px;padding:14px 16px;border:1px solid #e8d9a9;border-radius:8px;background:var(--warn-soft);color:#5f4b16;font-size:14px}
+      .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.card{min-width:0;border:1px solid var(--line);border-radius:8px;background:var(--panel);box-shadow:var(--shadow);overflow:hidden}.card header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border-bottom:1px solid var(--line);background:#fbfdfc}.card h3{margin:0;color:var(--accent-dark);font-size:18px}
+      .copy-btn{min-width:86px;min-height:36px;padding:0 12px;border:1px solid var(--accent);border-radius:8px;background:var(--accent);color:#fff;cursor:pointer}.copy-btn:hover{background:var(--accent-dark)}.copy-btn.copied,.copy-all.copied{border-color:#2f8f68;background:#2f8f68}
+      textarea{display:block;width:100%;min-height:640px;padding:16px;border:0;color:var(--text);background:#fff;resize:vertical;outline:none;white-space:pre-wrap;font-size:16px;line-height:1.75}
+      .image-note{margin-top:18px;padding:16px;border:1px solid var(--line);border-radius:8px;background:#fff}.image-note h3{margin:0 0 6px;color:var(--accent-dark);font-size:16px}.image-note p{margin:0;color:var(--muted)}
+      .toast{position:fixed;right:22px;bottom:22px;padding:12px 14px;border-radius:8px;background:#173f3a;color:#fff;box-shadow:var(--shadow);opacity:0;transform:translateY(10px);transition:opacity .18s ease,transform .18s ease;pointer-events:none}.toast.show{opacity:1;transform:translateY(0)}
+      @media(max-width:920px){.app{display:block}.sidebar{position:static;height:auto;border-right:0;border-bottom:1px solid var(--line)}.nav{grid-template-columns:repeat(2,minmax(0,1fr))}.content{padding:22px 16px}.topbar{display:block}.copy-all{margin-top:14px}.grid{grid-template-columns:1fr}textarea{min-height:520px}} @media(max-width:560px){.nav{grid-template-columns:1fr}.title h2{font-size:23px}}
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <aside class="sidebar"><div class="brand"><a class="brand-home" href="/" aria-label="返回又见世界文案复制板首页"><h1>又见世界文案复制板</h1></a><p>第二周｜微信群 + 朋友圈</p></div><nav class="nav" id="dayNav" aria-label="选择日期"></nav></aside>
+      <main class="content">
+        <div class="topbar"><div class="title"><h2 id="pageTitle"></h2><p id="pageSubtitle"></p></div><button class="copy-all" id="copyBoth">复制当天两版</button></div>
+        <div class="notice">复制建议：点击对应卡片右上角按钮即可复制。每段已保留空行，粘贴到微信聊天框后会比从 PDF 复制清楚。</div>
+        <section class="grid" id="cards"></section>
+        <section class="image-note"><h3>配图建议</h3><p id="imageNote"></p></section>
+      </main>
+    </div>
+    <div class="toast" id="toast">已复制</div>
+    <script>
+      const week = [{
+          day: "周一",
+          column: "邮轮玩法",
+          topic: "地中海邮轮",
+          image: `地中海邮轮甲板、罗马/巴塞罗那/马赛港口、欧洲海岸线、航线地图。`,
+          group: `【今日主题】
+地中海邮轮，适合想看欧洲、又怕天天换酒店的朋友。
+
+【适合谁】
+1. 想去欧洲，但不想每天收拾行李换酒店。
+2. 喜欢一次看几个城市，但希望节奏稳定一点。
+3. 身体情况稳定，可以接受岸上适度步行的 60/70 后朋友。
+
+【这条玩法是什么】
+地中海邮轮通常会停靠意大利、西班牙、法国南部等港口城市。
+
+晚上住在船上，白天下船游览，船就像一个“移动酒店”。
+
+【主要亮点】
+1. 少换酒店，不用天天搬行李。
+2. 一次可以看几个欧洲海港城市。
+3. 船上吃住娱乐比较完整，节奏比普通欧洲赶路团更稳定。
+4. 对想看欧洲、又怕太折腾的人比较友好。
+
+【特色体验】
+早上醒来，窗外可能已经换成另一座欧洲港口。
+
+白天上岸，去老城广场走一走，看看教堂、街巷和海边咖啡馆；傍晚回到船上，坐在甲板上看夕阳落到海面上。
+
+这种旅行的舒服之处，不是每天赶更多景点，而是不用频繁换酒店，还能慢慢感受几个不同城市的味道。
+
+【建议怎么玩】
+完整出行常见 10-12 天左右。
+
+第一次体验建议选登船港方便、岸上观光安排清楚、节奏不要太赶的线路。
+
+【预算参考】
+邮轮产品：约 18000-35000 元/人起。
+
+阳台房、旺季或更舒适安排：通常 35000 元/人起。
+
+具体价格看出发日期、船公司、房型、航班、港口税费和岸上观光安排。
+
+【需要注意】
+邮轮不是完全不累。
+
+要看岸上观光走路多不多、港口到市区远不远、额外费用是否清楚。
+
+【一句话总结】
+地中海邮轮适合想轻松看欧洲的人，但不能只看船和房型，一定要看岸上安排。`,
+          moments: `【今日主题】
+换一种方式看欧洲，地中海邮轮。
+
+【适合谁】
+如果您想去欧洲，但担心每天换酒店、搬行李、坐长途车，可以了解一下地中海邮轮。
+
+【这条玩法是什么】
+船就是移动酒店。
+
+晚上在船上休息，白天停靠不同港口，比如意大利、西班牙、法国南部等地。
+
+【特色体验】
+地中海邮轮最有意思的地方，是每天醒来都有一点新鲜感。
+
+今天可能在意大利海边小城散步，明天可能去西班牙港口看老城，晚上又回到熟悉的船舱休息。
+
+不用每天收拾箱子，也不用每天换酒店，对 60/70 后朋友来说，少折腾本身就是一种舒适。
+
+【建议怎么玩】
+常见完整出行 10-12 天左右。
+
+第一次坐地中海邮轮，要重点看登船港是否方便、岸上观光是否轻松、集合安排是否清楚。
+
+【预算参考】
+邮轮产品：约 18000-35000 元/人起。
+
+阳台房、旺季或更舒适安排：通常 35000 元/人起。
+
+具体价格看出发日期、船公司、房型、航班、港口税费和岸上观光安排。
+
+【需要注意】
+邮轮不等于完全不用走路。
+
+岸上观光也会有步行、台阶和集合时间。
+
+【一句话总结】
+适合自己的邮轮，才是真正轻松的邮轮。`
+        },
+        {
+          day: "周二",
+          column: "目的地推荐",
+          topic: "马来西亚南洋慢游",
+          image: `马六甲河畔、槟城壁画、吉隆坡双子塔、南洋骑楼街景。`,
+          group: `【今日目的地】
+马来西亚南洋慢游，适合第一次出境后想走得更慢一点的朋友。
+
+【适合谁】
+1. 想去东南亚，但不想每天赶景点。
+2. 喜欢城市、人文、小吃和南洋老街。
+3. 希望飞行距离适中，行程节奏不要太累。
+
+【为什么值得去】
+马来西亚有现代城市，也有南洋老城。
+
+吉隆坡比较现代，马六甲有历史街区，槟城有壁画、老街和海边气息。它不是只看风景，而是很适合慢慢感受南洋生活。
+
+【主要看什么】
+吉隆坡双子塔、马六甲老城、荷兰红屋、马六甲河、槟城壁画街、乔治市老街。
+
+【特色体验】
+傍晚在马六甲河边慢慢走，看两岸灯光亮起来，河上有小船经过。
+
+到了槟城，可以沿着老街找壁画，看看骑楼、小店和咖啡馆。天气不赶的时候，找个地方坐下来喝一杯白咖啡，会有一种很舒服的南洋味道。
+
+【建议玩几天】
+6-8 天比较舒服。
+
+如果只走吉隆坡和马六甲，可以短一点；如果加槟城，建议留足时间，不要每天换城市。
+
+【预算参考】
+跟团游：约 6000-12000 元/人起。
+
+定制游：通常 16000 元/人起。
+
+具体价格看出发日期、航班、酒店、人数和行程安排。
+
+【不适合谁】
+如果您特别怕热，或者只想看大山大水，马来西亚南洋慢游可能不是最优选择。
+
+【一句话总结】
+马来西亚适合慢慢走、慢慢看，重点不是打卡多少景点，而是感受南洋城市的节奏。`,
+          moments: `【今日目的地】
+马来西亚南洋慢游。
+
+【适合谁】
+如果您想去一个飞行距离适中、文化不陌生、又有异国风情的地方，可以了解马来西亚。
+
+【为什么值得去】
+马来西亚的好处，是既有现代城市，也有南洋老街。
+
+它不像一些长线目的地那么累，也不像纯海岛那样单一，适合喜欢慢慢看城市和生活气息的朋友。
+
+【特色体验】
+傍晚在马六甲河边散步，灯光一点点亮起来，河水旁边是老建筑、小店和咖啡馆。
+
+到槟城的时候，可以沿着老街看壁画，经过骑楼和小摊，坐下来喝一杯白咖啡。
+
+这种旅行不是为了赶很多景点，而是换一个地方，慢慢感受南洋的温度和生活。
+
+【建议玩几天】
+6-8 天比较舒服。
+
+如果加槟城，不建议排得太赶。
+
+【预算参考】
+跟团游：约 6000-12000 元/人起。
+
+定制游：通常 16000 元/人起。
+
+具体价格看出发日期、航班、酒店、人数和行程安排。
+
+【不适合谁】
+如果特别怕热、对东南亚餐食不适应，或者只想看自然奇观，就要提前考虑。
+
+【一句话总结】
+马来西亚的美，不是很刺激，而是舒服、熟悉，又带一点南洋的新鲜感。`
+        },
+        {
+          day: "周三",
+          column: "安心出行小贴士",
+          topic: "倒时差怎么舒服一点",
+          image: `飞机舷窗、酒店床头水杯、晨光散步、旅行手表。`,
+          group: `【今日提醒】
+出境游倒时差，不要靠硬熬。
+
+【为什么重要】
+很多 60/70 后朋友出远门，第一两天最容易累。
+
+不是景点不好玩，而是飞行、睡眠、饮食和时差一起影响身体。时差没调整好，后面几天都会觉得没精神。
+
+【具体怎么做】
+1. 出发前一两天，不要把自己安排得太忙。
+2. 飞机上能休息就休息，不要一直看手机。
+3. 到达后尽量按当地时间吃饭和睡觉。
+4. 白天可以适度晒太阳、散步，帮助身体适应。
+5. 到达当天不要安排高强度景点。
+
+【容易忽略的细节】
+不要一到酒店就睡很久。
+
+如果当地还是白天，可以简单洗漱、吃点东西、出门轻松走走，晚上再好好睡。
+
+【适合提前准备】
+眼罩、耳塞、薄外套、常用药、保温杯。
+
+如果平时睡眠不好，或者需要服用助眠药物，出发前最好先咨询医生，不要自己临时加药。
+
+【一句话总结】
+倒时差不是靠硬扛，而是把第一天节奏放慢，让身体慢慢跟上当地时间。`,
+          moments: `【今日提醒】
+出境游倒时差，第一天别安排太满。
+
+【为什么重要】
+很多人以为出境游累，是因为景点多。
+
+其实对 60/70 后朋友来说，第一关常常是航班和时差。睡不好、吃饭时间乱、落地又赶景点，很容易从第一天就累下来。
+
+【具体怎么做】
+到达后尽量按当地时间吃饭和休息。
+
+白天可以轻松散步、晒一点太阳，晚上再正式休息。飞机上尽量少刷手机，能闭眼就闭眼。
+
+【容易忽略的细节】
+到达当天不要马上安排很满。
+
+最舒服的节奏，是入住、吃饭、简单走走，让身体知道“现在已经到了另一个时间”。
+
+【适合提前准备】
+眼罩、耳塞、薄外套、常用药、保温杯。
+
+如果平时睡眠不好，或需要特殊药物，出发前最好咨询医生。
+
+【一句话总结】
+长线旅行想玩得舒服，第一天不要逞强，先把时差调顺。`
+        },
+        {
+          day: "周四",
+          column: "目的地推荐",
+          topic: "泰国清迈慢游",
+          image: `清迈古城、寺庙、咖啡馆、夜市灯光、山间度假酒店。`,
+          group: `【今日目的地】
+泰国清迈，适合喜欢慢节奏和小城气息的朋友。
+
+【适合谁】
+1. 想去泰国，但不想只去海岛或大城市。
+2. 喜欢小城、寺庙、咖啡馆和轻松散步。
+3. 希望行程不要太赶，住宿舒服一点。
+
+【为什么值得去】
+清迈不像曼谷那么热闹，也不像海岛那样只围绕海滩。
+
+它有古城、寺庙、夜市、山景和咖啡馆，适合把节奏放慢，住几天慢慢看。
+
+【主要看什么】
+清迈古城、契迪龙寺、双龙寺、夜市、山间咖啡馆、手工艺小店。
+
+【特色体验】
+早上可以在酒店慢慢吃早餐，白天去古城里的寺庙走一走，院子里有树、有风，也不需要一直赶路。
+
+下午找一家咖啡馆坐下来，看街上人来人往。晚上去夜市走一小段，看看灯光、小摊和手工艺品，累了就早点回酒店休息。
+
+【建议玩几天】
+5-6 天比较舒服。
+
+清迈不适合做成赶景点的行程，最好每天只安排一两个重点。
+
+【预算参考】
+跟团游：约 5000-10000 元/人起。
+
+定制游：通常 15000 元/人起。
+
+具体价格看出发日期、航班、酒店、人数和行程安排。
+
+【不适合谁】
+如果您特别怕热，或者不适应泰国饮食和香料，要提前考虑餐食安排。
+
+【一句话总结】
+清迈适合慢慢住、慢慢逛，不适合赶路打卡。`,
+          moments: `【今日目的地】
+泰国清迈。
+
+【适合谁】
+如果您想去泰国，但不想只看海岛，也不想去太热闹的大城市，可以了解一下清迈。
+
+【为什么值得去】
+清迈是一座适合慢下来的小城。
+
+这里有古城、寺庙、夜市、咖啡馆和山景，适合住几天，慢慢感受泰北的生活节奏。
+
+【特色体验】
+早上不用赶，慢慢吃完早餐再出门。
+
+去古城里的寺庙走走，阳光从树影里落下来，院子安静，脚步也会自然放慢。
+
+下午坐在咖啡馆里喝点东西，晚上去夜市看灯光和小摊，累了就回酒店休息。
+
+这种旅行不是为了每天打卡很多地方，而是让身体和心情都松下来。
+
+【建议玩几天】
+5-6 天比较合适。
+
+每天安排一两个重点就够了。
+
+【预算参考】
+跟团游：约 5000-10000 元/人起。
+
+定制游：通常 15000 元/人起。
+
+具体价格看出发日期、航班、酒店、人数和行程安排。
+
+【不适合谁】
+如果特别怕热，或者对泰国餐食不太适应，要提前确认酒店、餐食和每天车程。
+
+【一句话总结】
+清迈的好，不是热闹，而是慢、松弛、有生活味。`
+        },
+        {
+          day: "周五",
+          column: "全球景点与体验",
+          topic: "瑞士冰川列车",
+          image: `瑞士冰川列车全景车窗、雪山、山谷、红色列车、阿尔卑斯风景。`,
+          group: `【今日体验】
+瑞士冰川列车，一路坐着看阿尔卑斯风景。
+
+【为什么特别】
+冰川列车不是普通交通工具，而是一段可以慢慢看的瑞士风景体验。
+
+它把雪山、山谷、桥梁、小镇和草地串在一起，适合不想太累、又想看自然风光的朋友。
+
+【特色体验】
+坐在全景车窗旁边，窗外慢慢经过雪山、村庄、溪流和山谷。
+
+不用爬山，也不用一直换车赶路，只要坐在座位上，风景会一点点从窗边经过。天气好的时候，阳光照在雪山上，红色列车穿过山间，会有一种很安静、很舒服的旅行感。
+
+【适合谁】
+1. 喜欢自然风光和雪山。
+2. 不想高强度徒步，但想看瑞士山景。
+3. 喜欢慢旅行、火车旅行和舒适体验。
+
+【最佳时间】
+春夏秋冬都有不同风景。
+
+夏天绿意更明显，冬天雪景更突出。具体要看想看什么画面，以及当季车票和行程安排。
+
+【怎么到达或怎么安排】
+适合放进瑞士深度游、欧洲定制游，或瑞士火车旅行线路里。
+
+如果您是自由行，也可以单独安排冰川列车体验段，作为当地短途产品来体验。
+
+【需要注意】
+冰川列车座位、车票和季节很重要。
+
+如果是旺季，想坐到合适的车次和座位，建议提前安排。
+
+【适合搭配哪条线路】
+瑞士深度游、欧洲阿尔卑斯线路、瑞士火车慢旅行、欧洲定制游。
+
+【一句话总结】
+瑞士冰川列车适合想轻松看雪山的人，坐在车上就能慢慢看见阿尔卑斯的风景。`,
+          moments: `【今日体验】
+瑞士冰川列车。
+
+【为什么特别】
+有些风景，不一定非要爬山才能看到。
+
+瑞士冰川列车就是一种坐着慢慢看阿尔卑斯的方式。它不是普通交通，而是一段旅行体验。
+
+【特色体验】
+坐在全景车窗旁边，窗外是雪山、草地、山谷、小镇和桥梁。
+
+列车慢慢往前走，风景也慢慢换。您不用背着包爬很久，也不用赶着换景点，只要坐在座位上，看红色列车穿过瑞士山间。
+
+这种体验很适合喜欢自然风光，又希望旅行轻松一点的朋友。
+
+【适合谁】
+适合喜欢雪山、火车旅行、慢节奏自然风光的 60/70 后朋友。
+
+不一定要体力特别强，但要能接受较长时间乘坐火车。
+
+【最佳时间】
+夏天有绿色山谷和明亮雪山，冬天有更明显的雪景。
+
+不同季节画面不同，出发前要根据自己想看的风景来安排。
+
+【怎么到达或怎么安排】
+更适合放进瑞士深度游或欧洲定制游里。
+
+如果您是自由行，也可以单独安排冰川列车体验段，不一定要参加完整大团。
+
+【需要注意】
+冰川列车要看车票、座位和季节。
+
+如果是旺季，想坐到合适的车次和座位，建议提前安排。
+
+【一句话总结】
+好的瑞士旅行，不一定要爬山赶路，也可以坐在列车里慢慢看一段山间风景。`
+        }];
+      const nav=document.querySelector("#dayNav"),pageTitle=document.querySelector("#pageTitle"),pageSubtitle=document.querySelector("#pageSubtitle"),cards=document.querySelector("#cards"),imageNote=document.querySelector("#imageNote"),copyBoth=document.querySelector("#copyBoth"),toast=document.querySelector("#toast");let activeIndex=0;
+      function showToast(message){toast.textContent=message;toast.classList.add("show");clearTimeout(showToast.timer);showToast.timer=setTimeout(()=>toast.classList.remove("show"),1600)}
+      async function copyText(text,label,button){try{await navigator.clipboard.writeText(text)}catch(e){const helper=document.createElement("textarea");helper.value=text;helper.style.position="fixed";helper.style.left="-9999px";document.body.appendChild(helper);helper.select();document.execCommand("copy");helper.remove()} if(button){const old=button.textContent;button.textContent="已复制";button.classList.add("copied");setTimeout(()=>{button.textContent=old;button.classList.remove("copied")},1400)} showToast("已复制"+label)}
+      function renderNav(){nav.innerHTML="";week.forEach((item,index)=>{const button=document.createElement("button");button.type="button";button.className=index===activeIndex?"active":"";button.innerHTML='<span class="day">'+item.day+"｜"+item.column+'</span><span class="topic">'+item.topic+"</span>";button.addEventListener("click",()=>{activeIndex=index;render()});nav.appendChild(button)})}
+      function createCard(title,text){const card=document.createElement("article");card.className="card";const header=document.createElement("header");const heading=document.createElement("h3");heading.textContent=title;const button=document.createElement("button");button.type="button";button.className="copy-btn";button.textContent="复制";button.addEventListener("click",()=>copyText(text,title,button));header.append(heading,button);const area=document.createElement("textarea");area.value=text;area.spellcheck=false;area.addEventListener("focus",()=>area.select());card.append(header,area);return card}
+      function render(){const item=week[activeIndex];renderNav();pageTitle.textContent=item.day+"｜"+item.column;pageSubtitle.textContent="今日选题："+item.topic;imageNote.textContent=item.image;cards.innerHTML="";cards.append(createCard("群发版",item.group),createCard("朋友圈版",item.moments))}
+      copyBoth.addEventListener("click",()=>{const item=week[activeIndex];copyText("【群发版】\n\n"+item.group+"\n\n------------------------------\n\n【朋友圈版】\n\n"+item.moments,"当天两版",copyBoth)});
+      render();
+    </script>
+  </body>
+</html>

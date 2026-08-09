@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>又见世界｜2026年第30周文案复制板</title>
+    <style>
+      :root{--bg:#f4f7f6;--panel:#fff;--text:#1d2926;--muted:#63716d;--line:#d7e3df;--accent:#155d54;--accent-dark:#0d403a;--accent-soft:#e8f3f0;--brief:#fff9e9;--brief-line:#e5cf88;--shadow:0 14px 36px rgba(20,55,49,.08)}
+      *{box-sizing:border-box}body{margin:0;color:var(--text);background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.65}button,textarea{font:inherit}
+      .app{min-height:100vh;display:grid;grid-template-columns:260px minmax(0,1fr)}.sidebar{position:sticky;top:0;height:100vh;padding:24px 18px;border-right:1px solid var(--line);background:#fff;overflow:auto}
+      .brand{margin-bottom:22px}.brand h1{margin:0 0 6px;color:var(--accent-dark);font-size:20px;line-height:1.3}.brand p{margin:0;color:var(--muted);font-size:13px}
+      .brand-home{display:inline-block;color:inherit;text-decoration:none;border-radius:4px}.brand-home:hover h1{color:var(--accent)}.brand-home:focus-visible{outline:3px solid #a9cec5;outline-offset:4px}
+      .nav{display:grid;gap:8px}.nav button{width:100%;padding:12px;border:1px solid transparent;border-radius:8px;color:var(--text);background:transparent;text-align:left;cursor:pointer}.nav button:hover,.nav button.active{background:var(--accent-soft)}.nav button.active{border-color:#a9cec5;color:var(--accent-dark)}.nav .day{display:block;font-size:14px;font-weight:700}.nav .topic{display:block;margin-top:2px;color:var(--muted);font-size:12px}
+      .content{padding:32px}.topbar{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:20px}.title h2{margin:0 0 6px;color:var(--accent-dark);font-size:28px;line-height:1.25}.title p{margin:0;color:var(--muted)}
+      .copy-all{min-height:42px;padding:0 15px;border:1px solid var(--accent);border-radius:8px;background:var(--accent);color:#fff;cursor:pointer;white-space:nowrap}.copy-all:hover{background:var(--accent-dark)}
+      .notice{margin-bottom:20px;padding:14px 16px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--muted);font-size:14px}
+      .cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.card{min-width:0;border:1px solid var(--line);border-radius:8px;background:var(--panel);box-shadow:var(--shadow);overflow:hidden}.card.brief{grid-column:1/-1;border-color:var(--brief-line);background:var(--brief)}.card header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border-bottom:1px solid var(--line);background:#fbfdfc}.card.brief header{border-bottom-color:var(--brief-line);background:#fff7dc}.card h3{margin:0;color:var(--accent-dark);font-size:18px}
+      .copy-btn{min-width:86px;min-height:36px;padding:0 12px;border:1px solid var(--accent);border-radius:8px;background:var(--accent);color:#fff;cursor:pointer}.copy-btn:hover{background:var(--accent-dark)}.copy-btn.copied,.copy-all.copied{border-color:#2f8f68;background:#2f8f68}
+      textarea{display:block;width:100%;min-height:640px;padding:16px;border:0;color:var(--text);background:#fff;resize:vertical;outline:none;white-space:pre-wrap;font-size:16px;line-height:1.8}.brief textarea{min-height:118px;background:var(--brief);font-size:17px}
+      .image-note{margin-top:18px;padding:16px;border:1px solid var(--line);border-radius:8px;background:#fff}.image-note h3{margin:0 0 6px;color:var(--accent-dark);font-size:16px}.image-note p{margin:0;color:var(--muted)}
+      .toast{position:fixed;right:22px;bottom:22px;padding:12px 14px;border-radius:8px;background:#173f3a;color:#fff;box-shadow:var(--shadow);opacity:0;transform:translateY(10px);transition:opacity .18s ease,transform .18s ease;pointer-events:none}.toast.show{opacity:1;transform:translateY(0)}
+      @media(max-width:920px){.app{display:block}.sidebar{position:static;height:auto;border-right:0;border-bottom:1px solid var(--line)}.nav{grid-template-columns:repeat(2,minmax(0,1fr))}.content{padding:22px 16px}.topbar{display:block}.copy-all{margin-top:14px}.cards{grid-template-columns:1fr}.card.brief{grid-column:auto}textarea{min-height:520px}.brief textarea{min-height:150px}}@media(max-width:560px){.nav{grid-template-columns:1fr}.title h2{font-size:23px}}
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <aside class="sidebar"><div class="brand"><a class="brand-home" href="/" aria-label="返回又见世界文案复制板首页"><h1>又见世界文案复制板</h1></a><p>2026年第30周｜7月20日—24日</p></div><nav class="nav" id="dayNav" aria-label="选择日期"></nav></aside>
+      <main class="content">
+        <div class="topbar"><div class="title"><h2 id="pageTitle"></h2><p id="pageSubtitle"></p></div><button class="copy-all" id="copyAll">复制当天三版</button></div>
+        <div class="notice">简短群发版、完整群发版和朋友圈版彼此独立。点击对应按钮即可复制，文案中的空行会一起保留。</div>
+        <section class="cards" id="cards"></section>
+        <section class="image-note"><h3>本周配图</h3><p id="imageNote"></p></section>
+      </main>
+    </div>
+    <div class="toast" id="toast">已复制</div>
+    <script>
+      const week = [{"day": "周一", "column": "邮轮玩法", "topic": "挪威峡湾邮轮", "short": "今天给大家介绍挪威峡湾邮轮。船不是远远绕着海岸走，而是驶进冰川切开的高山深谷，坐在甲板上就能看瀑布从峭壁落进海里。", "group": "【今日主题】\n挪威峡湾邮轮，船开进高山深处\n\n【它和普通海上邮轮有什么不同】\n很多邮轮是在海岸外航行，挪威峡湾邮轮却会开进狭长的山谷水道。\n\n两边是被冰川切开的陡峭山壁，瀑布从高处落下来，山脚散着红顶小屋。早晨拉开窗帘，船可能已经悄悄驶进群山深处。\n\n【最值得看的地方】\n第一次去，可以重点关注盖朗厄尔峡湾、纳柔依峡湾一带。\n\n盖朗厄尔峡湾以“七姐妹”等瀑布闻名；纳柔依峡湾最窄处两边高山逼近水面，船行其中，很像走进一条天然长廊。两处都属于挪威西部峡湾世界遗产的一部分。\n\n【适合谁】\n1. 想看北欧山水，但不想每天坐长途车换酒店。\n2. 喜欢瀑布、雪山和安静小镇，不以购物和热闹娱乐为主。\n3. 可以接受岸上适度步行，希望把体力留给真正值得看的风景。\n\n【建议怎么玩】\n邮轮本身常见 4—7 晚，算上往返航班和登船前后城市，完整行程通常安排 9—12 天更从容。\n\n选航线时不要只看“挪威峡湾”四个字，要看具体停靠哪些峡湾港口、靠港时间有多长、岸上观光是否包含。\n\n【预算参考】\n邮轮产品：约 8500—20000 元/人起，不含国际机票。\n\n含国际机票和北欧陆地行程：通常 25000—45000 元/人起。\n\n具体价格看出发日期、船公司、房型、港口税费和岸上观光安排。\n\n【需要注意】\n峡湾内水面通常比外海平缓，但航程仍可能经过外海，晕船不能完全排除。\n\n另外，有些观景台需要坐车走山路或步行，报名时要看清岸上项目的强度。\n\n【一句话总结】\n挪威峡湾邮轮最特别的，不是船有多大，而是船会把您送进公路很难看到的群山深处。", "moments": "【今日主题】\n挪威峡湾邮轮，船开进高山深处\n\n如果坐邮轮只是看海，挪威峡湾可能会打破这个印象。\n\n这里的船会驶进冰川切开的深谷。清晨站在甲板上，两侧山壁越来越近，瀑布从高处落入深蓝色水面，偶尔还能看到山脚的小村庄。您不必翻山，也不用频繁换酒店，风景会主动来到眼前。\n\n【最值得期待】\n盖朗厄尔峡湾的“七姐妹”瀑布、纳柔依峡湾像天然长廊一样的窄水道，都是第一次去很值得关注的景色。\n\n【怎么选更合适】\n不要只比较船和房型，还要看具体停靠港、靠港时间和岸上观光。对第一次体验的人来说，4—7 晚邮轮配合登船前后城市，完整安排 9—12 天会比较舒服。\n\n【预算参考】\n邮轮产品约 8500—20000 元/人起，不含国际机票；含国际机票和北欧陆地行程，通常 25000—45000 元/人起。\n\n具体价格看日期、船公司、房型和岸上安排。\n\n【出发前提醒】\n峡湾里相对平稳，不代表全程没有风浪；有些观景台也会涉及山路和步行。选对航线和岸上项目，比单纯追求大船更重要。"}, {"day": "周二", "column": "目的地推荐", "topic": "土耳其", "short": "今天给大家推荐土耳其。卡帕多奇亚不只是看热气球，火山岩里还藏着教堂、住宅和地下空间，像走进一座被人生活了上千年的岩石世界。", "group": "【今日目的地】\n土耳其，把文明藏进岩石里\n\n【为什么值得去】\n土耳其最有意思的地方，是不同文明一层叠着一层。\n\n在伊斯坦布尔，一条博斯普鲁斯海峡把欧洲和亚洲分在两岸；到了卡帕多奇亚，人们又把教堂、住宅和整座地下空间凿进火山岩里。这里不是只靠风景出名，而是能看到人怎样在一片奇特土地上生活了上千年。\n\n【最有画面的体验】\n天还没亮，热气球在卡帕多奇亚山谷上空慢慢升起，脚下是被风雨雕出来的“精灵烟囱”。\n\n即使不坐热气球，也可以住一晚洞穴酒店、走进岩壁教堂，再去地下城看看古人如何把通道、储藏室和生活空间藏进地底。\n\n【主要看什么】\n伊斯坦布尔的圣索菲亚大教堂、蓝色清真寺和博斯普鲁斯海峡；卡帕多奇亚的格雷梅露天博物馆、地下城和山谷；时间充足还可以加入以弗所古城或棉花堡。\n\n【适合谁】\n1. 对古城、宗教建筑和文明交汇感兴趣，不满足于只看自然风景。\n2. 想亲眼看热气球，但即使天气取消，也愿意欣赏岩石教堂和地下城。\n3. 可以接受城市之间有较长车程，愿意用 9—12 天把重点看完整。\n\n【预算参考】\n经济型跟团游：约 8000—11000 元/人。\n\n常规纯玩团：约 11000—17000 元/人。\n\n深度精品团：约 18000—21000 元/人。\n\n定制游：4 人出行约 18000—27000 元/人；2 人出行约 21000—30000 元/人；高端定制通常 31000 元/人起。\n\n以上多为包含国际机票的 9—12 天参考价。具体价格看出发日期、出发城市、航班、酒店、人数和行程安排。\n\n【需要注意】\n热气球受天气影响，不能承诺一定起飞。\n\n【一句话总结】\n土耳其真正迷人的，不只是热气球，而是您走过的每一层土地下面，都可能藏着另一段文明。", "moments": "【今日目的地】\n土耳其，把文明藏进岩石里\n\n很多人因为热气球认识卡帕多奇亚，但那里真正让人惊讶的，是脚下的岩石曾经就是人们的家。\n\n火山灰凝成的岩层被风雨雕成奇峰，古人又在里面凿出教堂、住宅、储藏室，甚至层层相连的地下城。清晨看热气球升起是一种浪漫，白天走进岩壁和地下，则像翻开另一部历史。\n\n再回到伊斯坦布尔，博斯普鲁斯海峡两岸分别属于欧洲和亚洲。坐船从两洲之间经过，清真寺穹顶、旧皇宫和现代城市同时出现在眼前，这种文明交汇感很难被别处替代。\n\n【建议安排】\n第一次去建议 9—12 天，把伊斯坦布尔和卡帕多奇亚作为重点；喜欢历史的朋友，再加入以弗所古城。\n\n【预算参考】\n经济型跟团游：约 8000—11000 元/人。\n\n常规纯玩团：约 11000—17000 元/人。\n\n深度精品团：约 18000—21000 元/人。\n\n定制游：4 人出行约 18000—27000 元/人，2 人出行约 21000—30000 元/人，高端定制通常 31000 元/人起。\n\n以上多为包含国际机票的 9—12 天参考价，具体价格看日期、出发城市、航班、酒店、人数和行程安排。\n\n【出发前提醒】\n热气球能否起飞由天气决定，不适合把全部期待只压在一个项目上。\n\n土耳其值得去，不是因为一张热气球照片，而是因为它把亚洲、欧洲和几千年的文明放在了同一段旅程里。"}, {"day": "周三", "column": "安心出行小贴士", "topic": "出国常用药怎么带", "short": "今天给大家介绍出国带药最容易忽略的一件事：药带够了，还要让海关看得懂。处方药尽量保留原包装，并准备处方或医生证明。", "group": "【今日提醒】\n出国带药，别只装进分药盒\n\n【为什么要保留原包装】\n把药片全部装进分药盒，自己吃起来方便，但海关看不出药名、成分和用途。\n\n尤其是处方药、安眠镇静类药物、含特殊成分的药品，最好保留原包装和说明书，让药品身份清楚可查。\n\n【出发前做好这 6 件事】\n1. 先查目的地国家或地区的入境规定，同一种药在不同地方要求可能不同。\n2. 处方药带上处方或医生证明，尽量写明通用药名、剂量和用途。\n3. 按行程备足，并为航班延误等情况留少量余量，不要携带明显超过个人使用需要的数量。\n4. 每天必须服用的慢性病药随身携带，不要全部放进托运行李。\n5. 液体药、针剂、需要冷藏的药，出发前同时咨询医生和航空公司。\n6. 中药材、中成药以及含管制成分的药品，要特别核对入境限制。\n\n【随身怎么放】\n常用处方药可以集中装进一个透明袋，原包装、处方或医生证明放在一起。\n\n分药盒可以带，但更适合作为当天用量，主要药品仍保留能识别名称和成分的包装。\n\n【最容易犯的错】\n只听别人说“我上次带了没事”。每个人带的药、数量和目的地都不同，别人的经历不能代替官方规定。\n\n【一句话总结】\n出国带药的关键，不只是带齐，而是名称清楚、数量合理、证明齐全。", "moments": "【今日提醒】\n出国带药，别只装进分药盒\n\n旅行前整理药品时，很多人会把每天要吃的药全部分装好。这样确实方便，但到了海关，散装药片往往最难说明是什么。\n\n更稳妥的做法，是让药品“有名字、有来源、有用途”。\n\n【出发前记住】\n处方药尽量保留原包装，带上处方或医生证明；每天必须服用的药随身携带，不要全部托运；液体药、针剂和冷藏药提前问航空公司；中药材、中成药和特殊成分药物，要查目的地入境规定。\n\n药量按实际行程准备，可以为延误留少量余量，但不要明显超过个人使用需要。\n\n【一个实用装法】\n把原包装药品、处方和医生证明放在同一个透明袋里。分药盒只装当天或短期用量，需要说明时，仍能拿出完整包装。\n\n不同国家规定不同，最可靠的信息来自目的地海关、使领馆和航空公司。把这些细节提前做好，真正需要用药时才不会手忙脚乱。"}, {"day": "周四", "column": "目的地推荐", "topic": "肯尼亚", "short": "今天给大家推荐肯尼亚。清晨坐着越野车进入草原，狮群可能刚刚醒来，象群从车前慢慢经过，电视里的动物纪录片会突然变成车窗外的现场。", "group": "【今日目的地】\n肯尼亚，坐进动物纪录片现场\n\n【为什么值得去】\n在动物园里，是人去找动物；在肯尼亚草原上，动物就在自己的世界里生活，而您只是坐着车经过。\n\n清晨的马赛马拉，越野车沿着土路慢慢前行。狮子可能趴在草丛里休息，长颈鹿从远处走过，象群带着小象横穿车前。没有围栏，下一分钟会遇见什么，谁也不知道。\n\n【最特别的体验】\n每年大约 7—10 月，角马和斑马会随水草进入马赛马拉一带，这就是很多人熟悉的东非动物大迁徙季。\n\n但“迁徙季”不等于一定能看到渡河。动物行动受降雨、水草和现场情况影响，真正好的行程不会承诺某一天必定出现河渡。\n\n【主要看什么】\n马赛马拉看草原和大型动物；安博塞利常能看到象群与乞力马扎罗山同框；奈瓦沙湖可以坐船看河马和水鸟。\n\n【适合谁】\n1. 真正喜欢野生动物，愿意清晨出发，把时间留给观察和等待。\n2. 能接受草原土路颠簸、灰尘较多，以及连续几天乘坐越野车。\n3. 比起城市购物，更期待营地夜色、草原日出和动物自然行为。\n\n【建议玩几天】\n第一次去安排 8—12 天比较合适。不要贪多跑太多保护区，车程太长反而会压缩真正看动物的时间。\n\n【预算参考】\n经济型跟团游：约 19000—25000 元/人。\n\n常规纯玩团：约 28000—39000 元/人。\n\n深度精品团：约 47000—73000 元/人。\n\n4 人定制游：舒适档约 23000—29000 元/人；精品档约 34000—47000 元/人。\n\n2 人定制游：舒适档约 27000—34000 元/人；精品档约 39000—51000 元/人。\n\n以上为当前暑期 8—12 天、含国际机票参考价。\n\n【选产品重点看什么】\n看营地在保护区内还是外、每辆车坐几个人、是否保证靠窗、每天实际游猎时间有多长。肯尼亚旅行的体验，很大程度上由车、司机向导和营地位置决定。\n\n【一句话总结】\n肯尼亚不是去“参观动物”，而是暂时进入它们原本的生活现场。", "moments": "【今日目的地】\n肯尼亚，坐进动物纪录片现场\n\n清晨六点，草原还带着凉意。越野车驶出营地，远处的金色草浪里，长颈鹿慢慢抬起头；再往前，象群带着小象穿过土路，所有人都会自然安静下来。\n\n这就是肯尼亚和动物园完全不同的地方：这里没有固定出场时间，也没有围栏。您看到的，是动物按自己的节奏生活。\n\n【大迁徙到底怎么看】\n大约 7—10 月，角马和斑马会随水草进入马赛马拉一带。但迁徙不是演出，渡河更无法保证在某天发生。能理解等待和偶遇，才会真正享受这趟旅行。\n\n【第一次怎么安排】\n8—12 天比较合适。马赛马拉看草原动物，安博塞利看象群，奈瓦沙湖坐船看河马和水鸟。保护区不必塞得太多，少一点长途赶路，反而能多一点观察时间。\n\n【预算参考】\n经济型跟团游：约 19000—25000 元/人。\n\n常规纯玩团：约 28000—39000 元/人。\n\n深度精品团：约 47000—73000 元/人。\n\n4 人定制游：舒适档约 23000—29000 元/人；精品档约 34000—47000 元/人。\n\n2 人定制游：舒适档约 27000—34000 元/人；精品档约 39000—51000 元/人。\n\n以上为当前暑期 8—12 天、含国际机票参考价。\n\n【选产品真正要看】\n营地位置、车辆人数、是否保证靠窗、司机向导和每天游猎时间，这些比酒店大堂是否豪华更影响体验。\n\n肯尼亚最难忘的，往往不是拍到了多少动物，而是某一刻，您真的觉得自己坐进了纪录片里。"}, {"day": "周五", "column": "全球景点与体验", "topic": "爱丁堡皇家军乐节", "short": "今天给大家介绍爱丁堡皇家军乐节。夜色落在古堡上，风笛、军鼓和整齐方阵从城堡前铺开，这不是普通音乐会，而是一座古城参与其中的现场表演。", "group": "【今日体验】\n爱丁堡军乐节，古堡成为舞台\n\n【它不是“纹身节”】\n英文名称里的 Tattoo 不是纹身。在军乐传统中，它指与晚间收队归营有关的鼓号和仪式表演。\n\n每年夏天，爱丁堡城堡前的广场会变成露天舞台。风笛、军鼓、军乐队和整齐方阵从古堡门前出现，城墙、灯光和夜色都是演出的一部分。\n\n【为什么现场特别】\n普通音乐会的背景是一块幕布，这里的背景是一座真正经历过历史的城堡。\n\n鼓点在石墙之间回响，成排风笛手从城堡里走出来，各国表演队轮流登场。观众看到的不只是音乐，更是队列、服装、步伐和仪式感共同组成的大场面。\n\n【适合谁】\n1. 喜欢风笛、军乐、仪仗和大型队列表演。\n2. 已经去过一般欧洲城市，希望安排一个“只有特定日期才遇得到”的夜间体验。\n3. 能接受露天夜场、散场人流，并愿意提前确认座位台阶情况。\n\n【怎么到达或怎么安排】\n演出地点在爱丁堡城堡前。2026 年演出季为 8 月 7 日至 29 日，正式票务和场次以主办方页面为准。\n\n可以单独预订演出票，也可以把它放进爱丁堡城市停留中，白天参加老城或城堡游览，晚上看演出；前后还可以衔接苏格兰高地一日游、接送和酒店。\n\n【需要注意】\n这是露天演出，天气会影响现场感受；部分座位需要走台阶。入场宜轻装，主办方规定不能撑开雨伞，较大的包也有限制。\n\n【一句话总结】\n爱丁堡皇家军乐节最震撼的地方，是一座古堡、一座城市和整晚的军乐真正合在了一起。", "moments": "【今日体验】\n爱丁堡军乐节，古堡成为舞台\n\n夜色落在爱丁堡城堡上，第一阵鼓声从石墙之间传来。风笛手排着整齐队列从城堡门前走出，灯光照亮制服和乐器，整座古堡像突然醒了过来。\n\n这不是把舞台搭在古堡旁边那么简单。城墙、夜空、军鼓回声和队伍行进，共同组成了演出本身。\n\n【一个容易误会的名字】\n英文名称里的 Tattoo 不是纹身，而是来自军乐传统中与晚间收队归营有关的仪式表演。\n\n【谁会特别喜欢】\n喜欢风笛、军乐和仪仗的人；去过欧洲不少城市，想遇见一个只有特定日期才有的现场；或者对苏格兰文化感兴趣，希望旅行里不只看景点，也真正参加一次城市盛事。\n\n【怎么安排】\n2026 年演出季为 8 月 7 日至 29 日。可以单订演出票，也可以白天安排爱丁堡老城或城堡游览，晚上看演出；前后再衔接苏格兰高地一日游、酒店和接送。\n\n【现场提醒】\n露天夜场要留意天气和保暖，部分座位涉及台阶。入场宜轻装，现场不能撑开雨伞，较大的包也有限制。\n\n真正值得专门去看的体验，往往不是“看过一场表演”，而是多年以后，一听到风笛声，眼前还会想起那座夜色里的城堡。"}];
+      const notes = {
+        "周一":"挪威峡湾邮轮：6张3:4实景图 + 裁剪前原图",
+        "周二":"土耳其：6张3:4实景图 + 裁剪前原图",
+        "周三":"出国带药：1张可保存的3:4提醒图",
+        "周四":"肯尼亚：9张3:4实景图 + 裁剪前原图",
+        "周五":"爱丁堡皇家军乐节：9张3:4实景图 + 裁剪前原图"
+      };
+      const nav = document.getElementById("dayNav");
+      const cards = document.getElementById("cards");
+      const title = document.getElementById("pageTitle");
+      const subtitle = document.getElementById("pageSubtitle");
+      const imageNote = document.getElementById("imageNote");
+      const toast = document.getElementById("toast");
+      const copyAll = document.getElementById("copyAll");
+      let current = 0;
+
+      function copyText(value, button) {
+        navigator.clipboard.writeText(value).then(() => {
+          const old = button.textContent;
+          button.textContent = "已复制";
+          button.classList.add("copied");
+          toast.classList.add("show");
+          setTimeout(() => {button.textContent = old;button.classList.remove("copied");toast.classList.remove("show")}, 1300);
+        });
+      }
+      function card(label, value, brief=false) {
+        const article = document.createElement("article");
+        article.className = brief ? "card brief" : "card";
+        const header = document.createElement("header");
+        const heading = document.createElement("h3"); heading.textContent = label;
+        const button = document.createElement("button"); button.className = "copy-btn"; button.textContent = "复制文案"; button.addEventListener("click", () => copyText(value, button));
+        const area = document.createElement("textarea"); area.value = value; area.setAttribute("aria-label", label);
+        header.append(heading, button); article.append(header, area); return article;
+      }
+      function render(index) {
+        current = index; const item = week[index];
+        [...nav.children].forEach((button, i) => button.classList.toggle("active", i === index));
+        title.textContent = `${item.day}｜${item.column}`;
+        subtitle.textContent = item.topic;
+        imageNote.textContent = notes[item.day];
+        cards.replaceChildren(card("简短群发版", item.short, true), card("群发版", item.group), card("朋友圈版", item.moments));
+      }
+      week.forEach((item, index) => {
+        const button = document.createElement("button");
+        button.innerHTML = `<span class="day">${item.day} · ${item.column}</span><span class="topic">${item.topic}</span>`;
+        button.addEventListener("click", () => render(index)); nav.append(button);
+      });
+      copyAll.addEventListener("click", () => {const item=week[current];copyText(`【简短群发版】
+${item.short}
+
+【群发版】
+${item.group}
+
+【朋友圈版】
+${item.moments}`,copyAll)});
+      render(0);
+    </script>
+  </body>
+</html>
